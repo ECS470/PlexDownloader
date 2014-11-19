@@ -1,4 +1,4 @@
-$def with (movielib,moviewanted,tvlib,tvwanted,musiclib,musicwanted,albumlib,albumwanted,url)
+$def with (movielib,moviewanted,tvlib,tvwanted,tvlibencoded,tvwantedencoded,musiclib,musicwanted,albumlib,albumwanted,url)
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -125,9 +125,9 @@ $def with (movielib,moviewanted,tvlib,tvwanted,musiclib,musicwanted,albumlib,alb
               <h3 class="panel-title">Synced Shows</h3>
             </div>
           <ul class="list-group">
-            $for tv in tvwanted:
+            $for index, tv in enumerate(tvwanted):
                 $if tv != '':
-                    <li class="list-group-item">$tv <a class="btn btn-danger btn-xs" href="/delete?type=tvshow&content=$tv" role="button">Delete</a></span></li>
+                    <li class="list-group-item">$tv <a class="btn btn-danger btn-xs" href="/delete?type=tvshow&content=$tvwantedencoded[index]" role="button">Delete</a></span></li>
 
           </ul>
           </div>
@@ -137,9 +137,9 @@ $def with (movielib,moviewanted,tvlib,tvwanted,musiclib,musicwanted,albumlib,alb
               <h3 class="panel-title">TV Library</h3>
             </div>
           <ul class="list-group">
-            $for tv in tvlib:
+            $for index, tv in enumerate(tvlib):
                 $if tv not in tvwanted:
-                    <li class="list-group-item">$tv <a class="btn btn-success btn-xs" href="/sync?type=tvshow&content=$tv" role="button">Sync</a></span></li>
+                    <li class="list-group-item">$tv <a class="btn btn-success btn-xs" href="/sync?type=tvshow&content=$tvlibencoded[index]" role="button">Sync</a></span></li>
 
           </ul>
           </div>
