@@ -162,9 +162,13 @@ def photoSearch():
 		albumtitle = item.attributes['title'].value
 		albumlib.append(albumtitle)
 
+tvlibencoded=[]
+tvwantedencoded=[]
 tvlib=[]
 tvwanted=[]
 def tvShowSearch():
+	tvlibencoded[:]=[]
+	tvwantedencoded[:]=[]
 	tvlib[:]=[]
 	tvwanted[:]=[]
 	tvopen = open(tvfile,"r")
@@ -172,6 +176,9 @@ def tvShowSearch():
 	tvlist= tvread.split("\n")
 	tvwanted.extend(tvlist)
 	tvopen.close()
+	for item in tvwanted:
+		tvwantedencoded.append(urllib.quote(item))
+		
 	if myplexstatus=="enable":
 		tvhttp=url+"/library/sections/"+tvshowid+"/all"+"?X-Plex-Token="+plextoken
 	else:
@@ -183,6 +190,7 @@ def tvShowSearch():
 	for item in itemlist:
 		tvtitle = item.attributes['title'].value
 		tvlib.append(tvtitle)
+		tvlibencoded.append(urllib.quote(tvtitle))
 
 if myplexstatus=="enable":
 	plextoken = myPlexSignin(myplexusername,myplexpassword)
@@ -204,7 +212,7 @@ class index:
 		self.render = web.template.render('templates')
  
 	def GET(self):
-		return self.render.index(movielib,moviewanted,tvlib,tvwanted,musiclib,musicwanted,albumlib,albumwanted,url)
+		return self.render.index(movielib,moviewanted,tvlib,tvwanted,tvlibencoded,tvwantedencoded,musiclib,musicwanted,albumlib,albumwanted,url)
 
 	def POST(self):
 		data = web.data()
